@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="popup.css">
+  <title>Odoo Attendance</title>
+</head>
+<body>
+  <header class="topbar">
+    <h1>Attendance</h1>
+    <button id="btn-refresh" class="icon-btn" title="Refresh now" aria-label="Refresh now">
+      <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 2.5v3.5H10M2.5 13.5V10H6"/><path d="M12.9 6A5 5 0 0 0 3.4 5.2M3.1 10a5 5 0 0 0 9.5.8"/></svg>
+    </button>
+  </header>
+
+  <section id="status" class="status" data-state="loading">
+    <span class="dot" aria-hidden="true"></span>
+    <div>
+      <div id="status-label" class="status-label">Loading…</div>
+      <div id="status-detail" class="status-detail"></div>
+    </div>
+  </section>
+
+  <div id="error" class="banner hidden" role="status"></div>
+
+  <section class="reminders">
+    <div class="label">Reminders</div>
+    <div class="row">
+      <label class="switch">
+        <input type="checkbox" id="checkin-enabled" checked>
+        <span>Check in by</span>
+      </label>
+      <input type="time" id="checkin-time" value="10:00" aria-label="Check-in reminder time">
+    </div>
+    <div class="row">
+      <label class="switch">
+        <input type="checkbox" id="checkout-enabled" checked>
+        <span>Check out at</span>
+      </label>
+      <input type="time" id="checkout-time" value="19:00" aria-label="Check-out reminder time">
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span id="updated"></span>
+    <a href="https://www.odoo.com/odoo" id="open-odoo">Open Odoo</a>
+  </footer>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

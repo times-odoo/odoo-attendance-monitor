@@ -1,0 +1,200 @@
+/* Odoo Attendance Monitor popup — compact, neutral, follows the system theme. */
+
+:root {
+  --bg: #ffffff;
+  --bg-hover: #f4f5f7;
+  --text: #1f2328;
+  --dim: #656d76;
+  --border: #e3e6ea;
+  --accent: #714b67;          /* Odoo purple */
+  --in: #1a7f37;
+  --out: #cf222e;
+  --unknown: #8c959f;
+  --banner-bg: #fff8e5;
+  --banner-text: #7a5200;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1d21;
+    --bg-hover: #26282d;
+    --text: #e6e7ea;
+    --dim: #9198a1;
+    --border: #33363c;
+    --accent: #c08cb5;
+    --in: #3fb950;
+    --out: #f85149;
+    --unknown: #6e7681;
+    --banner-bg: #2d2615;
+    --banner-text: #e3b341;
+  }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 290px;
+  background: var(--bg);
+  color: var(--text);
+  font: 13px/1.4 system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-radius: 4px; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
+.hidden { display: none !important; }
+
+.icon {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ── Top bar ── */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 8px 8px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar h1 { font-size: 13px; font-weight: 600; }
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: var(--dim);
+}
+.icon-btn:hover { background: var(--bg-hover); color: var(--text); }
+.icon-btn:disabled { cursor: default; }
+.icon-btn.busy .icon { animation: spin 0.8s linear infinite; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Status ── */
+
+.status {
+  display: grid;
+  grid-template-columns: 10px 1fr;
+  column-gap: 10px;
+  align-items: baseline;
+  padding: 14px 14px 12px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--unknown);
+  align-self: start;
+  margin-top: 6px; /* centred on the first line (15px label) */
+}
+.status[data-state="checked_in"]  .dot { background: var(--in); }
+.status[data-state="checked_out"] .dot { background: var(--out); }
+
+.status-label { font-size: 15px; font-weight: 600; }
+.status[data-state="checked_in"]  .status-label { color: var(--in); }
+.status[data-state="checked_out"] .status-label { color: var(--out); }
+
+.status-detail { color: var(--dim); margin-top: 1px; }
+
+.banner {
+  margin: 0 14px 10px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: var(--banner-bg);
+  color: var(--banner-text);
+  font-size: 12px;
+}
+
+/* ── Reminders ── */
+
+.reminders {
+  padding: 10px 14px 8px;
+  border-top: 1px solid var(--border);
+}
+
+.reminders .label { margin-bottom: 4px; }
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 0;
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.switch input {
+  appearance: none;
+  position: relative;
+  width: 26px;
+  height: 16px;
+  border-radius: 8px;
+  background: var(--border);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.switch input::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+/* Animate only after saved settings are applied (no flicker on open). */
+body.ready .switch input { transition: background 0.15s; }
+body.ready .switch input::before { transition: transform 0.15s; }
+.switch input:checked { background: var(--accent); }
+.switch input:checked::before { transform: translateX(10px); }
+
+input[type="time"] {
+  font: inherit;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+input[type="time"]:disabled { color: var(--dim); opacity: 0.6; }
+input[type="time"]:focus { outline: none; border-color: var(--accent); }
+
+/* ── Footer ── */
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px 10px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--dim);
+}
